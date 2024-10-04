@@ -56,10 +56,10 @@ that updates the psbt with descriptor bip32 paths.
 - Re-name [`as_public`](https://github.com/rust-bitcoin/rust-miniscript/pull/377) APIs -> `to_public`
 - Significantly improve the [timelock](https://github.com/rust-bitcoin/rust-miniscript/pull/414) code with new rust-bitcoin APIs.
 - rust-miniscript minor implementation detail: `PkH` fragment now has `Pk` generic instead of `Pk::Hash`. This only concerns users
-that operate with `MiniscriptKey = bitcoin::PublicKey` or users that use custom implementation of `MiniscriptKey`. Users that use
+that operate with `MiniscriptKey = bellscoin::PublicKey` or users that use custom implementation of `MiniscriptKey`. Users that use
 `DescriptorPublicKey` need not be concerned. See [PR](https://github.com/rust-bitcoin/rust-miniscript/pull/431) for details.
-  - To elaborate, "pkh(<20-byte-hex>)" is no longer parsed by the `MiniscriptKey = bitcoin::PublicKey`.
-This is consistent with the descriptor spec as defined. Parsing from `bitcoin::Script` for pkh<20-byte-hex> is still supported, but the library would not analyze them. These raw descriptors are still in spec discussions. Rust-miniscript will support them once they are completely specified.
+  - To elaborate, "pkh(<20-byte-hex>)" is no longer parsed by the `MiniscriptKey = bellscoin::PublicKey`.
+This is consistent with the descriptor spec as defined. Parsing from `bellscoin::Script` for pkh<20-byte-hex> is still supported, but the library would not analyze them. These raw descriptors are still in spec discussions. Rust-miniscript will support them once they are completely specified.
 
 # 7.0.0 - April 20, 2022
 

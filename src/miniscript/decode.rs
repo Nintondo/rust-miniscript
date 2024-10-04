@@ -10,19 +10,18 @@ use core::fmt;
 #[cfg(feature = "std")]
 use std::error;
 
-use bitcoin::constants::MAX_BLOCK_WEIGHT;
-use bitcoin::hashes::{hash160, ripemd160, sha256, Hash};
-use bitcoin::Sequence;
+use bellscoin::constants::MAX_BLOCK_WEIGHT;
+use bellscoin::hashes::{hash160, ripemd160, sha256, Hash};
+use bellscoin::Sequence;
 use sync::Arc;
 
 use crate::miniscript::lex::{Token as Tk, TokenIter};
 use crate::miniscript::limits::MAX_PUBKEYS_PER_MULTISIG;
 use crate::miniscript::ScriptContext;
-use crate::{prelude::*, Miniscript};
 #[cfg(doc)]
 use crate::Descriptor;
-use crate::{bitcoin, hash256, AbsLockTime, Error, MiniscriptKey, ToPublicKey};
-
+use crate::{bellscoin, hash256, AbsLockTime, Error, MiniscriptKey, ToPublicKey};
+use crate::{prelude::*, Miniscript};
 
 /// Trait for parsing keys from byte slices
 pub trait ParseableKey: Sized + ToPublicKey + private::Sealed {
@@ -30,15 +29,15 @@ pub trait ParseableKey: Sized + ToPublicKey + private::Sealed {
     fn from_slice(sl: &[u8]) -> Result<Self, KeyParseError>;
 }
 
-impl ParseableKey for bitcoin::PublicKey {
+impl ParseableKey for bellscoin::PublicKey {
     fn from_slice(sl: &[u8]) -> Result<Self, KeyParseError> {
-        bitcoin::PublicKey::from_slice(sl).map_err(KeyParseError::FullKeyParseError)
+        bellscoin::PublicKey::from_slice(sl).map_err(KeyParseError::FullKeyParseError)
     }
 }
 
-impl ParseableKey for bitcoin::secp256k1::XOnlyPublicKey {
+impl ParseableKey for bellscoin::secp256k1::XOnlyPublicKey {
     fn from_slice(sl: &[u8]) -> Result<Self, KeyParseError> {
-        bitcoin::secp256k1::XOnlyPublicKey::from_slice(sl)
+        bellscoin::secp256k1::XOnlyPublicKey::from_slice(sl)
             .map_err(KeyParseError::XonlyKeyParseError)
     }
 }
@@ -47,9 +46,9 @@ impl ParseableKey for bitcoin::secp256k1::XOnlyPublicKey {
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum KeyParseError {
     /// Bitcoin PublicKey parse error
-    FullKeyParseError(bitcoin::key::Error),
+    FullKeyParseError(bellscoin::key::Error),
     /// Xonly key parse Error
-    XonlyKeyParseError(bitcoin::secp256k1::Error),
+    XonlyKeyParseError(bellscoin::secp256k1::Error),
 }
 
 impl fmt::Display for KeyParseError {
@@ -77,8 +76,8 @@ mod private {
     pub trait Sealed {}
 
     // Implement for those same types, but no others.
-    impl Sealed for super::bitcoin::PublicKey {}
-    impl Sealed for super::bitcoin::secp256k1::XOnlyPublicKey {}
+    impl Sealed for super::bellscoin::PublicKey {}
+    impl Sealed for super::bellscoin::secp256k1::XOnlyPublicKey {}
 }
 
 #[derive(Copy, Clone, Debug)]

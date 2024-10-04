@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 use std::str::FromStr;
 
-use bitcoin::address::WitnessVersion;
-use bitcoin::key::XOnlyPublicKey;
-use bitcoin::secp256k1::{rand, KeyPair};
-use bitcoin::Network;
+use bellscoin::address::WitnessVersion;
+use bellscoin::key::XOnlyPublicKey;
+use bellscoin::secp256k1::{rand, KeyPair};
+use bellscoin::Network;
 use miniscript::descriptor::DescriptorType;
 use miniscript::policy::Concrete;
 use miniscript::{translate_hash_fail, Descriptor, Miniscript, Tap, TranslatePk, Translator};
@@ -110,7 +110,7 @@ fn main() {
     // Compute the bitcoin address and check if it matches
     let network = Network::Bitcoin;
     let addr = real_desc.address(network).unwrap();
-    let expected_addr = bitcoin::Address::from_str(
+    let expected_addr = bellscoin::Address::from_str(
         "bc1pcc8ku64slu3wu04a6g376d2s8ck9y5alw5sus4zddvn8xgpdqw2swrghwx",
     )
     .unwrap()

@@ -10,7 +10,7 @@ use core::fmt;
 use core::marker::PhantomData;
 use core::str::FromStr;
 
-use bitcoin::script;
+use bellscoin::script;
 
 use crate::miniscript::context::ScriptContext;
 use crate::miniscript::decode::Terminal;
@@ -225,7 +225,7 @@ impl<Pk: MiniscriptKey, Ctx: ScriptContext> fmt::Display for SortedMultiVec<Pk, 
 
 #[cfg(test)]
 mod tests {
-    use bitcoin::secp256k1::PublicKey;
+    use bellscoin::secp256k1::PublicKey;
     use miniscript::context::Legacy;
 
     use super::*;
